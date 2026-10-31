@@ -1,0 +1,34 @@
+JC = javac
+OBJ_ALL = DiMol2D.class MetalworksHelp.class  PlotPanelW.class SetNpart.class Graph.class PdxFrame.class   SetVeloc.class GrFrame.class   PdyFrame.class PlotPD.class SiModulos.class Identf.class PhD.class PlotPdx.class Simulation.class Interaccion.class   PintaRT.class PlotPdy.class InteraccionW.class  PlotGr.class  Print2D.class Manometer.class PlotPanel.class Composicion.class Elongacion.class
+OBJ_F90 = MD-mezcla-par.obj
+OBJ_F = 
+OBJ_C = Interface.obj
+INC1 = "c:\Archivos de programa\Java\jdk1.6.0_07\include"
+INC2 = "c:\Archivos de programa\Java\jdk1.6.0_07\include\win32"
+
+.SUFFIXES : .class .java .f90 .obj .f .c 
+
+.f90.obj:
+	ifort /O /c   $<
+
+.java.class:
+	$(JC) $<
+
+
+DiMol2D:  $(OBJ_ALL) Simulation.dll
+	@echo "***************************************"
+	@echo "  Compiling DiMOl2D "
+	@echo "***************************************"
+
+Interface.obj: Simulation.h
+	cl /I $(INC1) /I $(INC2) /MD /c -DWIN32 Interface.c
+
+Simulation.h: Simulation.class
+	javah -force Simulation
+
+Simulation.dll: $(OBJ_F90) $(OBJ_F) $(OBJ_C)
+	ifort /MD /dll /FeSimulation.dll   $(OBJ_F90) $(OBJ_F) $(OBJ_C)
+
+
+jar:  DiMol2D.class  $(OBJ_ALL) 
+	jar cmvf MD.mf DiMol2D.jar  *class MessagesBundle* HelpFiles FicherosAyuda Icon Image

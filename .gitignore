@@ -1,0 +1,24 @@
+# Python bytecode & caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# macOS / OS metadata
+.DS_Store
+
+# Legacy compiled binaries, crash logs, and large scratch files in legacy_java/
+legacy_java/*.class
+legacy_java/*.jar
+legacy_java/*.o
+legacy_java/*.mod
+legacy_java/*.gch
+legacy_java/*.so
+legacy_java/*.dll
+legacy_java/*.lib
+legacy_java/*.exp
+legacy_java/hs_err_pid*.log
+legacy_java/*.ncd
+legacy_java/*.psd
+legacy_java/ncb
+legacy_java/DiMol2D copia.png
+legacy_java/DiMol2Dn.png

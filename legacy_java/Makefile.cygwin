@@ -1,0 +1,35 @@
+JC = javac
+OBJ_ALL = DiMol2D.class MetalworksHelp.class  PlotPanelW.class SetNpart.class Graph.class PdxFrame.class   SetVeloc.class GrFrame.class   PdyFrame.class PlotPD.class SiModulos.class Identf.class PhD.class PlotPdx.class Simulation.class Interaccion.class   PintaRT.class PlotPdy.class InteraccionW.class  PlotGr.class  Print2D.class Manometer.class PlotPanel.class Composicion.class Elongacion.class
+OBJ_F90 = MD-mezcla-par.o
+OBJ_F = 
+OBJ_C = Interface.o
+INC = -I/usr/java/jdk/include -I/usr/java/jdk/include/linux
+
+
+.SUFFIXES : .class .java .f90 .f .c
+
+.f90.o:
+	gfortran -c -O2  -fPIC  $<
+
+
+.java.class:
+	$(JC) $<
+
+
+DiMol2D:  $(OBJ_ALL) libSimulation.so
+	@echo "***************************************"
+	@echo "  Compiling DiMOl2D "
+	@echo "***************************************"
+
+Simulation.h: Simulation.class
+	javah -force Simulation
+
+Interface.o: Simulation.h
+	gcc -c -fPIC $(INC) Interface.c
+
+libSimulation.so: $(OBJ_F90) $(OBJ_F) $(OBJ_C)
+	gfortran -shared -o Simulation.dll $(OBJ_C) $(OBJ_F90) $(OBJ_F) 
+
+
+jar:  DiMol2D.class  $(OBJ_ALL) 
+	jar cmvf MD.mf DiMol2D.jar  *class MessagesBundle* HelpFiles FicherosAyuda Icon Image
